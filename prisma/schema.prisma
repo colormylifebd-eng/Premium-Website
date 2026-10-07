@@ -1,0 +1,56 @@
+// Prisma schema for the Color My Life (CML) website.
+// Docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  // Use a direct (non-pooled) connection string in production (e.g. Neon "direct" URL).
+  url      = env("DATABASE_URL")
+}
+
+/// The single shop owner account that can sign in to /admin.
+model AdminUser {
+  id               String    @id @default(cuid())
+  email            String    @unique
+  name             String?
+  passwordHash     String
+  /// Incremented on password reset so every older session becomes invalid.
+  tokenVersion     Int       @default(0)
+  failedLoginCount Int       @default(0)
+  lockedUntil      DateTime?
+  /// SHA-256 hash of the emailed reset token (the raw token is never stored).
+  resetTokenHash   String?   @unique
+  resetTokenExpiry DateTime?
+  createdAt        DateTime  @default(now())
+  updatedAt        DateTime  @updatedAt
+}
+
+/// Fixed product categories. Seeded from src/lib/constants.ts and not editable in the admin UI.
+model Category {
+  id          String    @id @default(cuid())
+  slug        String    @unique
+  name        String
+  nameEn      String
+  description String?
+  sortOrder   Int       @default(0)
+  products    Product[]
+}
+
+model Product {
+  id          String   @id @default(cuid())
+  name        String
+  description String
+  /// Price in Bangladeshi Taka (whole numbers only).
+  price       Int
+  imageUrl    String
+  categoryId  String
+  category    Category @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([categoryId])
+  @@index([createdAt])
+}

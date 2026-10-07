@@ -1,0 +1,217 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+:root {
+  --background: #f6f9fe;
+  --foreground: #0b1526;
+
+  /* Brand blue: the client's favourite colour and the primary identity colour */
+  --brand-50: #eef4ff;
+  --brand-100: #d9e6ff;
+  --brand-200: #b3cdff;
+  --brand-300: #85adff;
+  --brand-400: #5587f5;
+  --brand-500: #2f63dd;
+  --brand-600: #1d47b8;
+  --brand-700: #163792;
+  --brand-800: #122c70;
+  --brand-900: #0e2254;
+  --brand-950: #081331;
+
+  /* Warm wood / terracotta accent, taken from the miniature bases and tin roofs */
+  --accent-50: #fdf6ee;
+  --accent-100: #faebd4;
+  --accent-200: #f3d3a6;
+  --accent-300: #e8b06c;
+  --accent-400: #dd8f42;
+  --accent-500: #c9712a;
+  --accent-600: #a85720;
+  --accent-700: #85421d;
+  --accent-800: #6b351c;
+  --accent-900: #582c1a;
+
+  --whatsapp: #25d366;
+  --whatsapp-dark: #128c4b;
+
+  --card: #ffffff;
+  --card-foreground: #0b1526;
+  --border: #dfe6f1;
+  --ring: #2f63dd;
+  --muted: #edf2f9;
+  --muted-foreground: #556178;
+  --destructive: #dc2626;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-brand-50: var(--brand-50);
+  --color-brand-100: var(--brand-100);
+  --color-brand-200: var(--brand-200);
+  --color-brand-300: var(--brand-300);
+  --color-brand-400: var(--brand-400);
+  --color-brand-500: var(--brand-500);
+  --color-brand-600: var(--brand-600);
+  --color-brand-700: var(--brand-700);
+  --color-brand-800: var(--brand-800);
+  --color-brand-900: var(--brand-900);
+  --color-brand-950: var(--brand-950);
+  --color-accent-50: var(--accent-50);
+  --color-accent-100: var(--accent-100);
+  --color-accent-200: var(--accent-200);
+  --color-accent-300: var(--accent-300);
+  --color-accent-400: var(--accent-400);
+  --color-accent-500: var(--accent-500);
+  --color-accent-600: var(--accent-600);
+  --color-accent-700: var(--accent-700);
+  --color-accent-800: var(--accent-800);
+  --color-accent-900: var(--accent-900);
+  --color-whatsapp: var(--whatsapp);
+  --color-whatsapp-dark: var(--whatsapp-dark);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-border: var(--border);
+  --color-ring: var(--ring);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+
+  /* next/font injects --font-baloo, --font-hind, etc. on <html> */
+  --font-display: var(--font-baloo), var(--font-poppins), system-ui, sans-serif;
+  --font-body: var(--font-hind), var(--font-poppins), system-ui, sans-serif;
+  --font-latin: var(--font-poppins), system-ui, sans-serif;
+  --font-brush: var(--font-galada), var(--font-baloo), cursive;
+  --font-script: var(--font-dancing), cursive;
+
+  --animate-marquee: marquee var(--marquee-duration, 40s) linear infinite;
+  --animate-float: float 6s ease-in-out infinite;
+  --animate-float-slow: float 8s ease-in-out 1s infinite;
+  --animate-shine: shine 3.6s ease-in-out infinite;
+  --animate-spotlight: spotlight 2s ease 0.4s 1 forwards;
+  --animate-pulse-ring: pulse-ring 2.4s cubic-bezier(0.2, 0.7, 0.3, 1) infinite;
+}
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-12px); }
+}
+
+@keyframes shine {
+  0% { transform: translateX(-150%) skewX(-20deg); }
+  55%, 100% { transform: translateX(350%) skewX(-20deg); }
+}
+
+@keyframes spotlight {
+  0% { opacity: 0; transform: translate(-72%, -62%) scale(0.5); }
+  100% { opacity: 1; transform: translate(-50%, -40%) scale(1); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(1); opacity: 0.55; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--font-hind), var(--font-poppins), system-ui, sans-serif;
+  }
+
+  h1, h2, h3, h4 {
+    font-family: var(--font-baloo), var(--font-poppins), system-ui, sans-serif;
+    text-wrap: balance;
+  }
+
+  ::selection {
+    background: var(--brand-200);
+    color: var(--brand-950);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+  }
+}
+
+/* Dotted grid used behind dark sections */
+@utility bg-grid-dark {
+  background-image: radial-gradient(rgb(255 255 255 / 0.09) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+@utility bg-grid-light {
+  background-image: radial-gradient(rgb(29 71 184 / 0.1) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Gradient headline words. Apply to inline spans so Bangla marks aren't clipped. */
+@utility text-gradient-sky {
+  background-image: linear-gradient(100deg, #8fd3ff 0%, #ffffff 50%, #f3d3a6 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility text-gradient-brand {
+  background-image: linear-gradient(100deg, #1d47b8 0%, #2f63dd 50%, #4cb8f5 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+@utility mask-fade-x {
+  mask-image: linear-gradient(to right, transparent, black 8%, black 92%, transparent);
+}
+
+@utility scrollbar-none {
+  scrollbar-width: none;
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/*
+ * Below-the-fold sections skip layout and painting until they near the viewport.
+ * Don't use it on sections containing infinite animations (see cta-section.tsx).
+ */
+@utility cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: auto 900px;
+}
+
+/*
+ * Scroll reveal (components/shared/reveal.tsx), pure CSS with no JavaScript.
+ * Browsers without scroll-driven animations, and visitors who prefer reduced
+ * motion, simply see the content.
+ */
+@keyframes reveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+}
+
+/* Fully visible once about a quarter of the element has scrolled into view */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .reveal {
+      animation: reveal 1ms linear both;
+      animation-timeline: view();
+      animation-range: entry calc(1% + var(--reveal-delay, 0%)) entry calc(24% + var(--reveal-delay, 0%));
+    }
+  }
+}
+
+/* Stop the page behind the open mobile menu from scrolling */
+html:has(dialog[open]) {
+  overflow: hidden;
+}
